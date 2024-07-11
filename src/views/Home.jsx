@@ -1,5 +1,5 @@
 import Filter from '../components/Filter.jsx';
-import TodosList from '../components/TodosList.jsx';
+import Todo from '../components/Todo.jsx';
 
 function Home() {
 
@@ -8,7 +8,7 @@ function Home() {
         <div className="container">
             <Filter />
         
-            <TodosList />
+            <Todo />
         </div>
     </>
     )
