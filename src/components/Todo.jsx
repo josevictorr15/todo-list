@@ -1,38 +1,30 @@
 /* eslint-disable no-unused-vars */
 import './Todo.scss';
-import { useState } from 'react';
+import { useContext } from 'react';
+import { TodosContext } from '../TodosContext'; 
 
 function Todo()
 {
 
-    const initialTodos = [
-        { id: 0, title: 'Do Groceries', description: 'Buy apples, rice, juice and toilet paper.', isDone: true },
-        { id: 1, title: 'Study React', description: 'Understand context & reducers.', isDone: false},
-        { id: 2, title: 'Learn Redux', description: 'Learn state management with Redux', isDone: false }
-    ];
-    
-    const [todos, setTodos] = useState(initialTodos);
+    const state = useContext(TodosContext); // Essa variável vai guardar tudo que está no C ontext
 
     const deleteHandler = (id) => {
-        if(confirm('Are you sure you want to delete the to-do?')){
-            setTodos(todos.filter(todo => todo.id !== id));
-        }
-    }
+        state.dispatch({ // Pra esse método funcionar precisamos passar algumas informações
+            type: 'deleted',
+            id: id
+        }); // Esse método está dentro do Context
+    } // A lógica desta função não está aqui, aqui chama o dispatch e é lá no Reducer que acontece a lógica
 
     const isDoneHandler = (id) => {
-        setTodos(todos.map(todo => {
-            if(todo.id === id){
-                todo.isDone = !todo.isDone
-                return todo;
-            } else {
-                return todo;
-            }
-        }))
+        state.dispatch({
+            type: 'toggledIsDone',
+            id: id
+        })
     }
 
     return (
         <>
-            {todos.map(todo => 
+            {state.todos.map(todo => 
                 <div className={`todo ${todo.isDone ? 'done' : ''}`} key={todo.id}>
                     <button className="erase" onClick={() => deleteHandler(todo.id)}>x erase</button>
                     <h3>
